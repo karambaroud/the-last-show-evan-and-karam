@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './index.css';
 import App from './App';
-import Customize from "./Customize";
-import Empty from "./Empty"
+
+import Empty from "./Empty";
+import Overlay from "./Overlay";
 import reportWebVitals from './reportWebVitals';
+import Obituaries from './Obituaries';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,9 +16,8 @@ root.render(
       <Routes>
         <Route element={<App />}>
           <Route path ="/" element={<Empty/>} />
-          <Route path ="/Obituaries" element={<Empty />} />
-          <Route path="/Customize/:obitID/edit" element = {<Customize edit={true}/>} />
-          <Route path="/Customize/:obitID" element={<Customize edit={false}/>} />
+          <Route path ="/Obituaries" element={<Obituaries/> } />
+          <Route path="/Overlay/:obitID/edit"  element = {<Overlay />} />
           
         </Route>
       </Routes>

@@ -1,9 +1,109 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
+import { currentDate } from "./utils";
 import "./Overlay.css";
-//import { useOutletContext, useParams, Link } from "react-router-dom";
+//import { useOutletContext, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useOutletContext, useParams, Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import "./App.js";
+
+export default function Overlay({ isOpen, onClose }) {
+    let {obitID} = useParams();
+    obitID -= 1;
+    const navigate = useNavigate();
+    //obitID -= 1;
+    //var [ obituaries ] = useOutletContext();
+    let [obituaries, setObituaries, saveObituary, deleteObituary] = useOutletContext();
+    let currentObituary = { Name: "", birth: "", death: "", img: "https://www.google.com/url?sa=i&url=https%3A%2F%2"};
+    // if(obitID >= 0 && obituaries.length > obitID) {
+    //     currentObituary = obituaries[obitID];
+    // }
+
+    const [obitName, setObitName] = useState("");
+    const [obitBirth, setObitBirth] = useState("");
+    const [obitDeath, setObitDeath] = useState("");
+    const [img, setObitImg] = useState("");
+    const [id, setId] = useState("");
+
+    // state test...
+    useEffect(() => {
+        console.log(obitName);
+    }, [obitName])
 
 
-export default function Overlay({ isOpen, onClose, children }) {
+
+    useEffect(() => {
+        setObitName(currentObituary.Name);
+        if (currentObituary.birth) {
+            setObitBirth(currentObituary.birth);
+        } else {
+            setObitBirth(currentDate());
+        }
+        if(currentObituary.death) {
+            setObitDeath(currentObituary.death);
+        } else {
+            setObitDeath(currentDate());
+        }
+        setId(currentObituary.id);
+    }, [currentObituary]);
+
+    /*
+
+    const save = () => {
+        saveObituary(
+            {
+                key : id,
+                image : "for now...",
+                Name : setObitName,
+                born : setObitBirth,
+                died : setObitDeath,
+            },
+            obitID
+        );
+    };
+
+    */
+
+   
+
+    function addObituary() {
+        const id = uuidv4(); // use uuid to track each obituary
+        setObituaries([
+          {
+            key : id,
+            image : img,
+            Name : obitName,
+            born : obitBirth,
+            died : obitDeath,
+            biography: "hello",
+          },
+          ...obituaries,
+        ]);
+        /*
+        setAddMode(true);
+        setCurrentObiturary(0);
+        */
+        
+        //const newObituary = { id: id, image : "" , Name : "Name of the deceased", date_born: "", date_died: "" }
+        /*
+        const res = await fetch("https://t6tmufd7d6v5jdva4s2pa7rsfe0mznte.lambda-url.ca-central-1.on.aws/", 
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "email": `${profile.email}`,
+            "authorization": `Bearer ${user.access_token}`
+          },
+          body: JSON.stringify({...newNote, email: profile.email})
+        }
+        */
+    
+        navigate(`/Obituaries`);
+    }
+
+    
+
     //const [obituaries, addObituary, deleteObituary] = useOutletContext();
     return (
         <Fragment>
@@ -18,12 +118,13 @@ export default function Overlay({ isOpen, onClose, children }) {
                     onClick={onClose}
                   />
                 </div>
-                <input></input>
+                
+                <input onChange={(e) => setObitName(e.target.value)}/>
                 <p><i>Born:</i></p>
-                <input type="datetime-local" />
+                <input type="datetime-local" onChange={(e) => setObitBirth(e.target.value)} />
                 <p><i>Died:</i></p>
-                <input type="datetime-local" />
-                <button>Write Obituary</button>
+                <input type="datetime-local" onChange={(e) => setObitDeath(e.target.value)}/>
+                <button onClick={addObituary}>Write Obituary</button>
               </div>
             </div>
           )}

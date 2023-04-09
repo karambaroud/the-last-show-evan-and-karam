@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Overlay from "./Overlay";
+import Obituary from "./Obituary";
 const localStorageKey = "vvs";
 
 function App() {
@@ -37,13 +38,13 @@ function App() {
     if (currentObituary < 0) {
       return;
     }
-    if (!addMode) {
-      //navigate(`/App`);
+    if(!isOpen) {
+      navigate(`/Obituaries`);
       return;
     }
-    navigate(`/Customize/${currentObituary+1}/edit`);
+    navigate(`/Overlay/${currentObituary+1}/edit`);
     //setFlicker(true);
-  }, [obituaries]);
+  }, [isOpen]);
   // 
 
 
@@ -70,6 +71,15 @@ function App() {
     setAddMode(false);
   }
   
+  const saveObituary = (obituary, index) => {
+    setObituaries([
+      ...obituaries.slice(0, index),
+      { ...obituary },
+      ...obituaries.slice(index + 1),
+    ]);
+    setCurrentObiturary(index);
+    setIsOpen(!isOpen);
+  };
 
   function addObituary() {
     const id = uuidv4(); // use uuid to track each obituary
@@ -84,9 +94,10 @@ function App() {
       },
       ...obituaries,
     ]);
-
+    /*
     setAddMode(true);
     setCurrentObiturary(0);
+    */
     
     //const newObituary = { id: id, image : "" , Name : "Name of the deceased", date_born: "", date_died: "" }
     /*
@@ -106,6 +117,13 @@ function App() {
   
   }
 
+  const changer = () => {
+    setIsOpen(!isOpen);
+    setCurrentObiturary(0);
+    //setAddMode(true);
+    //addObituary();
+  }
+
 
   return (
     <>
@@ -115,16 +133,15 @@ function App() {
           <h1 id="title">The Last Show</h1>
         </div>
         <div className="headerDiv">
-          <button id="addButton" onClick={() => setIsOpen(!isOpen)}>+ New Obituary</button>
+          <button id="addButton" onClick={changer}>+ New Obituary</button>
         </div>
       </div>
-      <Overlay isOpen={isOpen} onClose={() => setIsOpen(!isOpen)}> 
-      </Overlay>
+      <Overlay isOpen={isOpen} onClose={() => setIsOpen(!isOpen)}></Overlay>
       <div id="main">
-        {obituaries != null ? (<Obituaries obituaries={obituaries}/>) : <p>add a new note</p> }
+        <Obituaries obituaries={obituaries}/>
       </div>
-      <div id="customize">
-        <Outlet context={[obituaries, addObituary, deleteObituary]} />
+      <div id="overlay">
+        <Outlet context={[obituaries, setObituaries, saveObituary, deleteObituary]} />
       </div>
     </>
   );
