@@ -15,7 +15,8 @@ root.render(
         <Route element={<App />}>
           <Route path ="/" element={<Empty/>} />
           <Route path ="/Obituaries" element={<Empty />} />
-          <Route path="/Customize/:obitID" element={<Customize />} />
+          <Route path="/Customize/:obitID/edit" element = {<Customize edit={true}/>} />
+          <Route path="/Customize/:obitID" element={<Customize edit={false}/>} />
           
         </Route>
       </Routes>

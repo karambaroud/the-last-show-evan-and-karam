@@ -2,17 +2,31 @@ import Obituaries from "./Obituaries";
 import { useEffect, useState, useRef } from "react";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-
+import Overlay from "./Overlay";
 const localStorageKey = "vvs";
 
 function App() {
   const navigate = useNavigate();
+
+  const [isOpen, setIsOpen] = useState(false);
   
   const [addMode, setAddMode] = useState(false);
   const [currentObituary, setCurrentObiturary] = useState(-1);
 
   const [obituaries, setObituaries] = useState([]);
 
+  
+  useEffect(() => {
+    const existing = localStorage.getItem(localStorageKey);
+    if(existing) {
+      try {
+        setObituaries(JSON.parse(existing));
+      } catch {
+        setObituaries([]);
+      }
+    }
+    
+  }, [])
   
 
   useEffect(() => {
@@ -27,7 +41,8 @@ function App() {
       //navigate(`/App`);
       return;
     }
-    navigate(`/Customize/${currentObituary+1}`);
+    navigate(`/Customize/${currentObituary+1}/edit`);
+    //setFlicker(true);
   }, [obituaries]);
   // 
 
@@ -100,12 +115,13 @@ function App() {
           <h1 id="title">The Last Show</h1>
         </div>
         <div className="headerDiv">
-          <button id="addButton" onClick={addObituary}>+ New Obituary</button>
+          <button id="addButton" onClick={() => setIsOpen(!isOpen)}>+ New Obituary</button>
         </div>
       </div>
+      <Overlay isOpen={isOpen} onClose={() => setIsOpen(!isOpen)}> 
+      </Overlay>
       <div id="main">
         {obituaries != null ? (<Obituaries obituaries={obituaries}/>) : <p>add a new note</p> }
-        
       </div>
       <div id="customize">
         <Outlet context={[obituaries, addObituary, deleteObituary]} />

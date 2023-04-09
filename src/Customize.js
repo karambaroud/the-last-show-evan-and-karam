@@ -7,7 +7,7 @@ import { currentDate } from "./utils";
 import Empty from "./Empty";
 
 
-export default function Customize() {
+export default function Customize({ edit }) {
     let { obituaryID } = useParams();
     obituaryID -= 1;
     const [obituaries, addObituary, deleteObituary] = useOutletContext();
@@ -37,6 +37,22 @@ export default function Customize() {
         setObitImg(currentObituary.img);
         setId(currentObituary.id);
     }, [currentObituary]);
+
+    return (
+
+        <>
+          
+                <div>
+
+                    hello
+                </div>
+
+
+
+        
+        </>
+       
+    )
     
 
 }
