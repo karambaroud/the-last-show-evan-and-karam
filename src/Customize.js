@@ -4,7 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import FormattedDate from "./FormattedDate";
 import { currentDate } from "./utils";
-
+import Empty from "./Empty";
 
 
 export default function Customize() {
@@ -36,17 +36,7 @@ export default function Customize() {
         }
         setObitImg(currentObituary.img);
         setId(currentObituary.id);
-      }, [currentObituary]);
-
+    }, [currentObituary]);
     
 
-    return (
-    <>
-        <header>
-            <h2>Create a New Obituary</h2>
-        
-        </header>
-    </>
-    )
-
-};
+}

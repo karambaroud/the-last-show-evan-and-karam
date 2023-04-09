@@ -13,9 +13,10 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route element={<App />}>
+          <Route path ="/" element={<Empty/>} />
+          <Route path ="/Obituaries" element={<Empty />} />
+          <Route path="/Customize/:obitID" element={<Customize />} />
           
-          <Route path="/Obituaries/:obitID" element={<Customize/>} />
-          <Route path="*" element={<App />}/>
         </Route>
       </Routes>
     </BrowserRouter>
