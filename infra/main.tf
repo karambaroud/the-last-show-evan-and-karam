@@ -130,7 +130,9 @@ resource "aws_iam_policy" "policy" {
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents",
-        "dynamodb:Query"
+        "dynamodb:Scan",
+        "ssm:GetParametersByPath",
+        "polly:SynthesizeSpeech
       ],
       "Resource": ["arn:aws:logs:*:*:*", "${aws_dynamodb_table.the-last-show-30147741.arn}"],
       "Effect": "Allow"

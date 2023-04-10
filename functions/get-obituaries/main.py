@@ -1,32 +1,28 @@
 # add your get-obituaries function here
-
-# add your get-notes function here
-
 import json
 import boto3
-from boto3.dynamodb.conditions import Key
-import urllib.request
 
 dynamodb_resource = boto3.resource("dynamodb")
-table = dynamodb_resource.Table("obituaries-30146985")
+table = dynamodb_resource.Table("the-last-show-30147741")
 
 def get_handler(event, context):
-    
-    access_token = event["headers"]["authorization"].split()[1]
-
-    
-    response =  urllib.request.urlopen()
-    data = json.loads(response.read().decode())
-
-    
-    queryParameter = event["queryStringParameters"]
-
     try:
+
+        res = table.scan()
+        data = res["Items"]
+
+        # Scan has 1 MB limit so this loop will make sure to fetch all results
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            data.extend(response['Items'])
+
+        # We'll have to add more here like fetching the amazon polly and the image from cloudinary
+
         return {
             "statusCode": 200,
                 "body": json.dumps({
                     "message": "success",
-                    "notes": "something"
+                    "obituaries": data
                 })
         }
     except Exception as exp:
