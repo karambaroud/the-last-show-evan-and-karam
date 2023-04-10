@@ -125,7 +125,7 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
         {
           key : uuidv4(),
           image : img,
-          Name : obitName,
+          name : obitName,
           born : obitBirth,
           died : obitDeath,
           biography: obitName,
@@ -155,10 +155,18 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
       navigate(`Obituaries`);
     }
 
-    
+    const onFileChange = (e) => {
+      setObitImg(e.target.files[0]);
+    }
+
+    const onFormSubmit = (e) => {
+      e.preventDefault();
+      addObituary();
+    }
 
     //const [obituaries, addObituary, deleteObituary] = useOutletContext();
     return (
+  
         <Fragment>
           {isOpen && (
             <div className="overlay">
@@ -171,13 +179,37 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
                     onClick={onClose}
                   />
                 </div>
-                
-                <input onChange={(e) => setObitName(e.target.value)}/>
-                <p><i>Born:</i></p>
-                <input type="datetime-local" onChange={(e) => setObitBirth(e.target.value)} />
-                <p><i>Died:</i></p>
-                <input type="datetime-local" onChange={(e) => setObitDeath(e.target.value)}/>
-                <button onClick={addObituary}>Write Obituary</button>
+              
+                <form onSubmit={(e) => onFormSubmit(e)}>
+                  <p><i>Please choose an image of the deceased:</i></p>
+                  <input 
+                    type="file" 
+                    required 
+                    accept="image/*"
+                    onChange={(e) => onFileChange(e)}
+                  />
+                  <p><i>Name of the deceased:</i></p>
+                  <input 
+                    type="text" 
+                    required 
+                    placeholder="name" 
+                    onChange={(e) => setObitName(e.target.value)}
+                  />
+                  <p><i>Born:</i></p>
+                  <input 
+                    type="date" 
+                    onChange={(e) => setObitBirth(e.target.value)}
+                  />
+                  <p><i>Died:</i></p>
+                  <input 
+                    type="date" 
+                    onChange={(e) => setObitDeath(e.target.value)}
+                  />
+                  <input 
+                    type="submit" 
+                    value="Create Obituary" 
+                  />
+                </form>
               </div>
             </div>
           )}
