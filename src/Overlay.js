@@ -38,7 +38,7 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
     };
 
 
-
+    /*
     useEffect(() => {
         setObitName(currentObituary.Name);
         if (currentObituary.birth) {
@@ -128,7 +128,7 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
           Name : obitName,
           born : obitBirth,
           died : obitDeath,
-          biography: "for now la la la",
+          biography: obitName,
         },
         ...obituaries,
       ]);
@@ -151,7 +151,7 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
         body: JSON.stringify({...newNote, email: profile.email})
       }
       */
-  
+      setIsOpen(!isOpen);
       navigate(`Obituaries`);
     }
 
