@@ -16,7 +16,7 @@ root.render(
       <Routes>
         <Route element={<App />}>
           <Route path ="/" element={<Empty/>} />
-          <Route path ="/Obituaries" element={<Obituaries/> } />
+          <Route path ="/Obituaries" element={<App/> } />
           <Route path="/Overlay/:obitID/edit"  element = {<Overlay />} />
           
         </Route>

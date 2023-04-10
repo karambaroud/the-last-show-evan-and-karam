@@ -5,15 +5,15 @@ import "./Overlay.css";
 import { useNavigate } from "react-router-dom";
 import { useOutletContext, useParams, Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import "./App.js";
+import App from "./App.js";
 
-export default function Overlay({ isOpen, onClose }) {
+export default function Overlay({ isOpen, onClose, obituaries, setCurrentObiturary, setObituaries, setIsOpen}) {
     let {obitID} = useParams();
     obitID -= 1;
     const navigate = useNavigate();
     //obitID -= 1;
     //var [ obituaries ] = useOutletContext();
-    let [obituaries, setObituaries, saveObituary, deleteObituary] = useOutletContext();
+    //let [obituaries, setObituaries, saveObituary, deleteObituary] = useOutletContext();
     let currentObituary = { Name: "", birth: "", death: "", img: "https://www.google.com/url?sa=i&url=https%3A%2F%2"};
     // if(obitID >= 0 && obituaries.length > obitID) {
     //     currentObituary = obituaries[obitID];
@@ -26,9 +26,16 @@ export default function Overlay({ isOpen, onClose }) {
     const [id, setId] = useState("");
 
     // state test...
-    useEffect(() => {
-        console.log(obitName);
-    }, [obitName])
+    
+    const saveObituary = (obituary, index) => {
+      setObituaries([
+        ...obituaries.slice(0, index),
+        { ...obituary },
+        ...obituaries.slice(index + 1),
+      ]);
+      setCurrentObiturary(index);
+      setIsOpen(!isOpen);
+    };
 
 
 
@@ -68,6 +75,7 @@ export default function Overlay({ isOpen, onClose }) {
 
     function addObituary() {
         const id = uuidv4(); // use uuid to track each obituary
+        /*
         setObituaries([
           {
             key : id,
@@ -78,7 +86,11 @@ export default function Overlay({ isOpen, onClose }) {
             biography: "hello",
           },
           ...obituaries,
-        ]);
+        */
+        
+     
+      
+
         /*
         setAddMode(true);
         setCurrentObiturary(0);
@@ -99,7 +111,48 @@ export default function Overlay({ isOpen, onClose }) {
         }
         */
     
-        navigate(`/Obituaries`);
+        //navigate(`/Obituaries`);
+    }
+
+    const dealWith = () => {
+      currentObituary.Name = obitName;
+      saveObituary(currentObituary, obitID);
+    }
+
+    function addObituary() {
+      const id = uuidv4(); // use uuid to track each obituary
+      setObituaries([
+        {
+          key : uuidv4(),
+          image : img,
+          Name : obitName,
+          born : obitBirth,
+          died : obitDeath,
+          biography: "for now la la la",
+        },
+        ...obituaries,
+      ]);
+      /*
+      setAddMode(true);
+      setCurrentObiturary(0);
+      */
+      
+      //const newObituary = { id: id, image : "" , Name : "Name of the deceased", date_born: "", date_died: "" }
+      /*
+      const res = await fetch("https://t6tmufd7d6v5jdva4s2pa7rsfe0mznte.lambda-url.ca-central-1.on.aws/", 
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "email": `${profile.email}`,
+          "authorization": `Bearer ${user.access_token}`
+        },
+        body: JSON.stringify({...newNote, email: profile.email})
+      }
+      */
+  
+      navigate(`Obituaries`);
     }
 
     
