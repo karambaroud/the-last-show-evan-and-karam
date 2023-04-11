@@ -38,42 +38,6 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
       setIsOpen(!isOpen);
     };
 
-
-    /*
-    useEffect(() => {
-        setObitName(currentObituary.Name);
-        if (currentObituary.birth) {
-            setObitBirth(currentObituary.birth);
-        } else {
-            setObitBirth(currentDate());
-        }
-        if(currentObituary.death) {
-            setObitDeath(currentObituary.death);
-        } else {
-            setObitDeath(currentDate());
-        }
-        setId(currentObituary.id);
-    }, [currentObituary]);
-
-    /*
-
-    const save = () => {
-        saveObituary(
-            {
-                key : id,
-                image : "for now...",
-                Name : setObitName,
-                born : setObitBirth,
-                died : setObitDeath,
-            },
-            obitID
-        );
-    };
-
-    */
-
-   
-
     function addObituary() {
         const id = uuidv4(); // use uuid to track each obituary
         /*
@@ -121,6 +85,33 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
     }
 
     function addObituary() {
+
+
+      const onSubmitForm = async (e) => { 
+        e.preventDefault();
+    
+        console.log(obitName, obitBirth, img);
+    
+        const data = new FormData();
+        
+        data.append("name", obitName);
+        data.append("when", obitBirth);
+        data.append("file", img);
+    
+        const res = await fetch("https://xhjoig5ezmuntkokva52y6fgdi0gkigx.lambda-url.ca-central-1.on.aws/", {
+            method: "POST",
+            body: data,  
+        });
+    
+        console.log(res)
+    
+        jsonRes = await res.json();
+      }
+    
+
+
+
+
       const id = uuidv4(); // use uuid to track each obituary
       setObituaries([
         {
@@ -133,25 +124,9 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
         },
         ...obituaries,
       ]);
-      /*
-      setAddMode(true);
-      setCurrentObiturary(0);
-      */
       
-      //const newObituary = { id: id, image : "" , Name : "Name of the deceased", date_born: "", date_died: "" }
-      /*
-      const res = await fetch("https://t6tmufd7d6v5jdva4s2pa7rsfe0mznte.lambda-url.ca-central-1.on.aws/", 
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          "email": `${profile.email}`,
-          "authorization": `Bearer ${user.access_token}`
-        },
-        body: JSON.stringify({...newNote, email: profile.email})
-      }
-      */
+     
+      
       setIsOpen(!isOpen);
       navigate(`Obituaries`);
     }
