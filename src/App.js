@@ -19,6 +19,39 @@ function App() {
 
   const [obituaries, setObituaries] = useState([]);
 
+  // Obituary structure
+  // {
+  //   key : uuidv4(),
+  //   image : img,
+  //   name : obitName,
+  //   born : obitBirth,
+  //   died : obitDeath,
+  //   biography: obitName,
+  // },
+
+  useEffect(() => {
+    getObituaries();
+  }, [])
+
+  const getObituaries = async () => {
+    const res = await fetch("https://isqqvishbns65lxgueuqwwagvq0knrbn.lambda-url.ca-central-1.on.aws/", 
+    {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+    const json = await res.json();
+    const fetchedObituaries = await json.obituaries;
+    console.log(fetchedObituaries)
+    if(fetchedObituaries === []) {
+      setObituaries([]);
+    } else {
+      setObituaries(fetchedObituaries);
+    }
+  }
+
   
   useEffect(() => {
     const existing = localStorage.getItem(localStorageKey);

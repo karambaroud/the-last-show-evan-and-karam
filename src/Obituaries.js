@@ -14,6 +14,7 @@ function Obituaries({ obituaries }) {
                   born = {obituary.born}
                   died = {obituary.died}
                   biography = {obituary.biography}
+                  audio = {obituary.audio}
                 />
             ))}
         </div>

@@ -56,7 +56,6 @@ def create_handler(event, context):
 
         # Convert biography to speech
         polly_response = polly_client.synthesize_speech(
-            Engine='standard',
             OutputFormat='mp3',
             SampleRate='8000',
             Text=biography,
@@ -102,8 +101,8 @@ def create_handler(event, context):
             "born": born,
             "died": died,
             "biography": biography,
-            "audio_url": audio_url,
-            "image_url": image_url
+            "audio": audio_url,
+            "image": image_url
         }
 
         table.put_item(Item=newBody)
@@ -112,8 +111,8 @@ def create_handler(event, context):
                 "body": json.dumps({
                     "message": "success",
                     "biography": biography,
-                    "audio_url": audio_url,
-                    "image_url": image_url
+                    "audio": audio_url,
+                    "image": image_url
                 })
         }
 
