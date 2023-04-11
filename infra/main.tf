@@ -77,7 +77,7 @@ data "archive_file" "get-archive" {
   type = "zip"
   # this file (main.py) needs to exist in the same folder as this 
   # Terraform configuration file
-  source_file = "../functions/get-obituaries/main.py"
+  source_dir = "../functions/get-obituaries"
   output_path = local.get_artifact_name
 }
 
@@ -131,10 +131,17 @@ resource "aws_iam_policy" "policy" {
         "logs:CreateLogStream",
         "logs:PutLogEvents",
         "dynamodb:Scan",
-        "ssm:GetParametersByPath",
-        "polly:SynthesizeSpeech
+        "dynamodb:PutItem",
+        "ssm:GetParametersByPath"
       ],
-      "Resource": ["arn:aws:logs:*:*:*", "${aws_dynamodb_table.the-last-show-30147741.arn}"],
+      "Resource": ["arn:aws:logs:*:*:*", "${aws_dynamodb_table.the-last-show-30147741.arn}", "arn:aws:ssm:ca-central-1:*:parameter/the-last-show/"],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "polly:SynthesizeSpeech"
+      ],
+      "Resource": "*",
       "Effect": "Allow"
     }
   ]
