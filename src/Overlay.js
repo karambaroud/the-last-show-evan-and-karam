@@ -38,95 +38,26 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
       setIsOpen(!isOpen);
     };
 
-    function addObituary() {
-        const id = uuidv4(); // use uuid to track each obituary
-        /*
-        setObituaries([
-          {
-            key : id,
-            image : img,
-            Name : obitName,
-            born : obitBirth,
-            died : obitDeath,
-            biography: "hello",
-          },
-          ...obituaries,
-        */
-        
-     
-      
-
-        /*
-        setAddMode(true);
-        setCurrentObiturary(0);
-        */
-        
-        //const newObituary = { id: id, image : "" , Name : "Name of the deceased", date_born: "", date_died: "" }
-        /*
-        const res = await fetch("https://t6tmufd7d6v5jdva4s2pa7rsfe0mznte.lambda-url.ca-central-1.on.aws/", 
-        {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            "email": `${profile.email}`,
-            "authorization": `Bearer ${user.access_token}`
-          },
-          body: JSON.stringify({...newNote, email: profile.email})
-        }
-        */
-    
-        //navigate(`/Obituaries`);
-    }
-
     const dealWith = () => {
       currentObituary.Name = obitName;
       saveObituary(currentObituary, obitID);
     }
 
-    function addObituary() {
-
-
-      const onSubmitForm = async (e) => { 
-        e.preventDefault();
-    
-        console.log(obitName, obitBirth, img);
-    
-        const data = new FormData();
-        
-        data.append("name", obitName);
-        data.append("when", obitBirth);
-        data.append("file", img);
-    
-        const res = await fetch("https://xhjoig5ezmuntkokva52y6fgdi0gkigx.lambda-url.ca-central-1.on.aws/", {
-            method: "POST",
-            body: data,  
-        });
-    
-        console.log(res)
-    
-        jsonRes = await res.json();
-      }
-    
-
-
-
-
-      const id = uuidv4(); // use uuid to track each obituary
+    function addObituary(id, json) {
       setObituaries([
         {
-          key : uuidv4(),
-          image : img,
+          id : id,
+          image : json.image,
           name : obitName,
           born : obitBirth,
           died : obitDeath,
-          biography: obitName,
+          biography: json.biography,
+          audio: json.audio
         },
         ...obituaries,
       ]);
       
-     
-      
+    
       setIsOpen(!isOpen);
       navigate(`Obituaries`);
     }
@@ -135,9 +66,32 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
       setObitImg(e.target.files[0]);
     }
 
-    const onFormSubmit = (e) => {
+    const onFormSubmit = async (e) => {
       e.preventDefault();
-      addObituary();
+    
+      console.log(obitName, obitBirth, img);
+  
+      const id = uuidv4();
+      const data = new FormData();
+      
+      data.append("id", id);
+      data.append("name", obitName);
+      data.append("born", obitBirth);
+      data.append("died", obitDeath);
+      data.append("file", img);
+  
+      const res = await fetch("fxn url", {
+          method: "POST",
+          body: data,  
+      });
+  
+      console.log(res)
+
+      if(res.status == 200) {
+        const jsonRes = await res.json();
+        console.log(jsonRes);
+        addObituary(id, jsonRes);
+      }
     }
 
     const onFileClicker = React.useRef(null);
@@ -182,14 +136,14 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
                     <input 
                       id="datebox1"
                       //className="date-line"
-                      type="datetime-local" 
+                      type="date" 
                       onChange={(e) => setObitBirth(e.target.value)}
                     /></i></p>
                     <p className="date-line"><i>Died:
                     <input 
                       id="datebox2"
                       //className="date-line"
-                      type="datetime-local" 
+                      type="date" 
                       onChange={(e) => setObitDeath(e.target.value)}
                     /></i></p>
                   </div>

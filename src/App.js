@@ -34,7 +34,7 @@ function App() {
   }, [])
 
   const getObituaries = async () => {
-    const res = await fetch("https://isqqvishbns65lxgueuqwwagvq0knrbn.lambda-url.ca-central-1.on.aws/", 
+    const res = await fetch("fxn url", 
     {
       method: "GET",
       mode: "cors",
@@ -42,13 +42,16 @@ function App() {
         "Content-Type": "application/json",
       }
     })
-    const json = await res.json();
-    const fetchedObituaries = await json.obituaries;
-    console.log(fetchedObituaries)
-    if(fetchedObituaries === []) {
-      setObituaries([]);
-    } else {
-      setObituaries(fetchedObituaries);
+    if(res.status == 200) {
+      const json = await res.json();
+      const fetchedObituaries = await json.obituaries;
+      console.log(fetchedObituaries)
+
+      if(fetchedObituaries === []) {
+        setObituaries([]);
+      } else {
+        setObituaries(fetchedObituaries);
+      } 
     }
   }
 

@@ -2,31 +2,12 @@ import { useState, useEffect } from 'react';
 
 
 function Obituary({image, name, born, died, biography, audio}) {
-    // const [image, setImage] = useState(null);
-    // const [name, setName] = useState("");
-    // const [born, setBorn] = useState("");
-    // const [died, setDied] = useState("");
 
-    // function toggleBio() {
-    //     const bio = document.getElementsByClassName("bio");
-    // }
     const [bioIsActive, setBioActive] = useState(false);
-    // const [audioIsActive, setAudioActive] = useState(false);
-    // const theAudio = new Audio(audio);
 
     const toggleBio = () => {
         setBioActive(!bioIsActive);
     }
-
-    // const togglePlay = () => {
-    //     if (theAudio.paused) {
-    //         theAudio.play();
-    //         setAudioActive(true);
-    //     } else {
-    //         theAudio.pause();
-    //         setAudioActive(false);
-    //     }
-    // }
 
     const useAudio = (url) => {
       const [audio] = useState(new Audio(url));
