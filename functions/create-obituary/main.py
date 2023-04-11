@@ -1,7 +1,4 @@
 # add your create-obituary function here
-
-
-# add your create-obituary function here
 import json 
 import boto3
 import requests
