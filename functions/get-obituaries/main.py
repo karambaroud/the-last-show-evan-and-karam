@@ -32,4 +32,6 @@ def get_handler(event, context):
                 "body": json.dumps({
                     "message":str(exp)
             })
+
         }
+
