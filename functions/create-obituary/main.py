@@ -56,6 +56,7 @@ def create_handler(event, context):
 
         # Convert biography to speech
         polly_response = polly_client.synthesize_speech(
+            Engine='standard',
             OutputFormat='mp3',
             SampleRate='8000',
             Text=biography,

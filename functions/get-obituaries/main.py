@@ -7,16 +7,13 @@ table = dynamodb_resource.Table("the-last-show-30147741")
 
 def get_handler(event, context):
     try:
-
         res = table.scan()
         data = res["Items"]
 
         # Scan has 1 MB limit so this loop will make sure to fetch all results
-        while 'LastEvaluatedKey' in response:
-            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
-            data.extend(response['Items'])
-
-        # We'll have to add more here like fetching the amazon polly and the image from cloudinary
+        while 'LastEvaluatedKey' in res:
+            res = table.scan(ExclusiveStartKey=res['LastEvaluatedKey'])
+            data.extend(res['Items'])
 
         return {
             "statusCode": 200,
