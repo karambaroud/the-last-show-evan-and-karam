@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useOutletContext, useParams, Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import App from "./App.js";
+import React from 'react';
 
 export default function Overlay({ isOpen, onClose, obituaries, setCurrentObiturary, setObituaries, setIsOpen}) {
     let {obitID} = useParams();
@@ -164,9 +165,14 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
       addObituary();
     }
 
+    const onFileClicker = React.useRef(null);
+
+    const handleFileClick = (e) => {
+      onFileClicker.current.click();
+    }
+
     //const [obituaries, addObituary, deleteObituary] = useOutletContext();
     return (
-  
         <Fragment>
           {isOpen && (
             <div className="overlay">
@@ -179,33 +185,40 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
                     onClick={onClose}
                   />
                 </div>
-              
+                <h4 className="bottom-flex" >Create a New Obituary</h4>
                 <form onSubmit={(e) => onFormSubmit(e)}>
-                  <p><i>Please choose an image of the deceased:</i></p>
-                  <input 
+                  <button onClick={handleFileClick} id="magic-button"><b><u>Please choose an image of the deceased</u></b></button>
+                  <input id="image-input"
                     type="file" 
+                    ref={onFileClicker}
                     required 
                     accept="image/*"
                     onChange={(e) => onFileChange(e)}
+                    
                   />
-                  <p><i>Name of the deceased:</i></p>
-                  <input 
+                  <input id="upflexbox" 
                     type="text" 
                     required 
-                    placeholder="name" 
+                    placeholder="Name of the deceased" 
                     onChange={(e) => setObitName(e.target.value)}
                   />
-                  <p><i>Born:</i></p>
-                  <input 
-                    type="date" 
-                    onChange={(e) => setObitBirth(e.target.value)}
-                  />
-                  <p><i>Died:</i></p>
-                  <input 
-                    type="date" 
-                    onChange={(e) => setObitDeath(e.target.value)}
-                  />
-                  <input 
+                  <div className="date-line">
+                    <p className="date-line"><i>Born:  
+                    <input 
+                      id="datebox1"
+                      //className="date-line"
+                      type="datetime-local" 
+                      onChange={(e) => setObitBirth(e.target.value)}
+                    /></i></p>
+                    <p className="date-line"><i>Died:
+                    <input 
+                      id="datebox2"
+                      //className="date-line"
+                      type="datetime-local" 
+                      onChange={(e) => setObitDeath(e.target.value)}
+                    /></i></p>
+                  </div>
+                  <input  className="bottom-flex-2"
                     type="submit" 
                     value="Create Obituary" 
                   />

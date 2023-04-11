@@ -41,3 +41,74 @@
     font-size: 36px;
     cursor: pointer;
   }
+
+.bottom-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.bottom-flex-2 {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width:450px;
+  height: 40px;
+  background-color:lightgreen;
+  border:none;
+  position:relative;
+  left:200px;
+}
+
+#image-input {
+  display:none;
+}
+
+#magic-button {
+  display:flex;
+  justify-content: center;
+  outline:none;
+  border:none;
+  background-color: white;
+  position: relative;
+  margin-top:50px;
+  left:300px;
+}
+
+#upflexbox {
+  width:450px;
+  height:40px;
+  position: relative;
+  left:200px;
+  margin-top:15px;
+}
+
+#birthinput {
+  display:flex;
+  border: none;
+  position: relative;
+  left: 160px;
+  margin-top: 100px;
+}
+
+.date-line {
+  display:flex;
+  border:none;
+  justify-content: center;
+  margin-top:10px;
+  margin-bottom:10px;
+  position:relative;
+  right:10px;
+}
+
+#datebox1{
+  margin-left:10px;
+  border:none;
+  margin-right:10px;
+}
+
+#datebox2{
+  margin-left:10px;
+  border:none;
+}
