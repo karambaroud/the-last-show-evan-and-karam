@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import App from "./App.js";
 import React from 'react';
 
-export default function Overlay({ isOpen, onClose, obituaries, setCurrentObiturary, setObituaries, setIsOpen}) {
+export default function Overlay({ isOpen, onClose, obituaries, setCurrentObiturary, setObituaries, setIsOpen }) {
     let {obitID} = useParams();
     obitID -= 1;
     const navigate = useNavigate();
@@ -80,7 +80,7 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
       data.append("died", obitDeath);
       data.append("file", img);
   
-      const res = await fetch("fxn url", {
+      const res = await fetch("https://cgryxpx6ofngewlzgpmbuxdhae0giekb.lambda-url.ca-central-1.on.aws/", {
           method: "POST",
           body: data,  
       });
@@ -116,21 +116,24 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
                 </div>
                 <h4 className="bottom-flex" >Create a New Obituary</h4>
                 <form onSubmit={(e) => onFormSubmit(e)}>
-                  <button onClick={handleFileClick} id="magic-button"><b><u>Please choose an image of the deceased</u></b></button>
-                  <input id="image-input"
-                    type="file" 
-                    ref={onFileClicker}
-                    required 
-                    accept="image/*"
-                    onChange={(e) => onFileChange(e)}
-                    
-                  />
-                  <input id="upflexbox" 
-                    type="text" 
-                    required 
-                    placeholder="Name of the deceased" 
-                    onChange={(e) => setObitName(e.target.value)}
-                  />
+                  <div id="wrapper">
+                    <button onClick={handleFileClick} id="magic-button"><b><u>Please choose an image of the deceased</u></b></button>
+                    <input id="image-input"
+                      type="file" 
+                      ref={onFileClicker}
+                      required 
+                      accept="image/*"
+                      onChange={(e) => onFileChange(e)}
+                    />
+                  </div>
+                  <div id="maintextbox">
+                    <input id="upflexbox" 
+                      type="text" 
+                      required 
+                      placeholder="Name of the deceased" 
+                      onChange={(e) => setObitName(e.target.value)}
+                    />
+                  </div>
                   <div className="date-line">
                     <p className="date-line"><i>Born:  
                     <input 
@@ -147,10 +150,12 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
                       onChange={(e) => setObitDeath(e.target.value)}
                     /></i></p>
                   </div>
-                  <input  className="bottom-flex-2"
-                    type="submit" 
-                    value="Create Obituary" 
-                  />
+                  <div id="bottomwrapper">
+                    <input  className="bottom-flex-2"
+                      type="submit" 
+                      value="Create Obituary" 
+                    />
+                  </div>
                 </form>
               </div>
             </div>
