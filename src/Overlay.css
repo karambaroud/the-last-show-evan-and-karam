@@ -57,8 +57,7 @@
   height: 40px;
   background-color:lightgreen;
   border:none;
-  position:relative;
-  left:200px;
+  
 }
 
 #image-input {
@@ -71,16 +70,17 @@
   outline:none;
   border:none;
   background-color: white;
-  position: relative;
+  
   margin-top:50px;
-  left:300px;
+  
 }
 
 #upflexbox {
+  display:flex;
+  justify-content: center;
   width:450px;
   height:40px;
-  position: relative;
-  left:200px;
+  
   margin-top:15px;
 }
 
@@ -111,4 +111,19 @@
 #datebox2{
   margin-left:10px;
   border:none;
+}
+
+#wrapper {
+  display:flex;
+  justify-content: center;
+}
+
+#maintextbox {
+  display:flex;
+  justify-content: center;
+}
+
+#bottomwrapper {
+  display:flex;
+  justify-content: center;
 }
