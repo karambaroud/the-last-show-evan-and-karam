@@ -8,6 +8,12 @@ import { v4 as uuidv4 } from "uuid";
 import App from "./App.js";
 import React from 'react';
 
+const options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric"
+};
+
 export default function Overlay({ isOpen, onClose, obituaries, setCurrentObiturary, setObituaries, setIsOpen }) {
     let {obitID} = useParams();
     obitID -= 1;
@@ -25,6 +31,7 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
     const [obitDeath, setObitDeath] = useState("");
     const [img, setObitImg] = useState("");
     const [id, setId] = useState("");
+    const [disabled, setDisabled] = useState(false);
 
     // state test...
     
@@ -68,8 +75,9 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
 
     const onFormSubmit = async (e) => {
       e.preventDefault();
+      setDisabled(true);
     
-      console.log(obitName, obitBirth, img);
+      console.log(obitName, obitBirth, obitDeath, img);
   
       const id = uuidv4();
       const data = new FormData();
@@ -80,7 +88,7 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
       data.append("died", obitDeath);
       data.append("file", img);
   
-      const res = await fetch("https://cgryxpx6ofngewlzgpmbuxdhae0giekb.lambda-url.ca-central-1.on.aws/", {
+      const res = await fetch("https://doqngru7cfa4uos7h3i3xo6y4e0ncwxy.lambda-url.ca-central-1.on.aws/", {
           method: "POST",
           body: data,  
       });
@@ -92,12 +100,28 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
         console.log(jsonRes);
         addObituary(id, jsonRes);
       }
+      else {
+        console.log(res);
+        const jsonRes = await res.json();
+        console.log(jsonRes);
+      }
+      setDisabled(false);
     }
 
     const onFileClicker = React.useRef(null);
 
     const handleFileClick = (e) => {
       onFileClicker.current.click();
+    }
+
+    function handleObitBirth(date) {
+      const born = new Date(date);
+      setObitBirth(born.toLocaleDateString(undefined, options))
+    }
+
+    function handleObitDeath(date) {
+      const died = new Date(date);
+      setObitDeath(died.toLocaleDateString(undefined, options))
     }
 
     //const [obituaries, addObituary, deleteObituary] = useOutletContext();
@@ -139,21 +163,24 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
                     <input 
                       id="datebox1"
                       //className="date-line"
+                      required
                       type="date" 
-                      onChange={(e) => setObitBirth(e.target.value)}
+                      onChange={(e) => handleObitBirth(e.target.value)}
                     /></i></p>
                     <p className="date-line"><i>Died:
                     <input 
                       id="datebox2"
                       //className="date-line"
+                      required
                       type="date" 
-                      onChange={(e) => setObitDeath(e.target.value)}
+                      onChange={(e) => handleObitDeath(e.target.value)}
                     /></i></p>
                   </div>
                   <div id="bottomwrapper">
-                    <input  className="bottom-flex-2"
+                    <input  className={`bottom-flex-2 ${disabled? "disabled" : ""}`}
+                      disabled={disabled}
                       type="submit" 
-                      value="Create Obituary" 
+                      value={`${disabled? "Please wait..." : "Create Obituary"}`}
                     />
                   </div>
                 </form>

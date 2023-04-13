@@ -60,6 +60,11 @@
   
 }
 
+.bottom-flex-2:hover {
+  background-color:darkgreen;
+  color:white;
+}
+
 #image-input {
   display:none;
 }
@@ -126,4 +131,13 @@
 #bottomwrapper {
   display:flex;
   justify-content: center;
+}
+
+.disabled {
+  background: gray;
+  color: white;
+}
+
+.disabled:hover {
+  background-color: gray;
 }

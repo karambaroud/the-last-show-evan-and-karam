@@ -40,6 +40,10 @@ def create_handler(event, context):
         name = binary_data[1].decode()
         born = binary_data[2].decode()
         died = binary_data[3].decode()
+        print("id: ", id, type(id))
+        print("name: ", name, type(name))
+        print("born: ", born, type(born))
+        print("died: ", died, type(died))
 
         # Generates biography
         gpt_response = requests.post("https://api.openai.com/v1/completions", 
@@ -52,7 +56,10 @@ def create_handler(event, context):
                 "prompt": f"write an obituary about a fictional character named {name} who was born on {born} and died on {died}.",
                 "max_tokens": 600
             })
+        print("GPT response: ", gpt_response)
+        print(gpt_response.content)
         biography = gpt_response.json()["choices"][0]["text"].strip()
+        print("biography: ", biography)
 
         # Convert biography to speech
         polly_response = polly_client.synthesize_speech(
@@ -78,7 +85,10 @@ def create_handler(event, context):
             files={
                 "file": audio
             })
+        print("audio response: ", audio_response)
+        print(audio_response.content)
         audio_url = audio_response.json()["secure_url"]
+        print("audio url: ", audio_url)
 
         # Write image to cloudinary
         image_response = requests.post(f"https://api.cloudinary.com/v1_1/{ssm_res['/the-last-show/cloud-name']}/image/upload", 
@@ -90,7 +100,10 @@ def create_handler(event, context):
             files={
                 "file": binary_data[4]
             })
+        print("image response: ", image_response)
+        print(image_response.content)
         image_url = image_response.json()["secure_url"]
+        print("image url: ", image_url)
         index = image_url.find("upload/")
         image_url = image_url[:index + 7] + "e_art:zorro/" + image_url[index + 7:] # Apply zorro filter to image
 

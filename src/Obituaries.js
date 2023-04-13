@@ -7,8 +7,9 @@ function Obituaries({ obituaries }) {
     return (
         <div className="obituaries">
             {obituaries.map((obituary) => (
+              <div>
                 <Obituary 
-                  key = {uuidv4()}
+                  key = {obituary.id}
                   image = {obituary.image}
                   name = {obituary.name}
                   born = {obituary.born}
@@ -16,6 +17,7 @@ function Obituaries({ obituaries }) {
                   biography = {obituary.biography}
                   audio = {obituary.audio}
                 />
+              </div>
             ))}
         </div>
     );
