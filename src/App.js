@@ -142,6 +142,7 @@ function App() {
         <Overlay isOpen={isOpen} onClose={() => setIsOpen(!isOpen)} obituaries={obituaries} setObituaries={setObituaries} setCurrentObiturary={setCurrentObiturary} setIsOpen={setIsOpen}></Overlay>
         <div id="main">
           <Obituaries obituaries={obituaries}/>
+          {obituaries.length === 0 ? <h4 id="nothingToDisplay">No obituaries yet.</h4> : <></>}
         </div>
         <div id="overlay">
         

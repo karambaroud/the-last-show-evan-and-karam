@@ -137,6 +137,11 @@ body {
   z-index: 1;
 }
 
+#nothingToDisplay {
+  margin-top: 30px;
+  color:gray;
+}
+
 @media only screen and (max-width: 900px) {
   .obituaries {
     grid-template-columns: repeat(2, 1fr);
