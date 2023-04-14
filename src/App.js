@@ -19,16 +19,7 @@ function App() {
 
   const [obituaries, setObituaries] = useState([]);
   const [spinner, setSpinner] = useState(false);
-
-  // Obituary structure
-  // {
-  //   key : uuidv4(),
-  //   image : img,
-  //   name : obitName,
-  //   born : obitBirth,
-  //   died : obitDeath,
-  //   biography: obitName,
-  // },
+  const [newID, setNewID] = useState(null);
 
   useEffect(() => {
     getObituaries();
@@ -64,66 +55,9 @@ function App() {
     setSpinner(false);
   }
 
-  
-  // useEffect(() => {
-  //   const existing = localStorage.getItem(localStorageKey);
-  //   if(existing) {
-  //     try {
-  //       setObituaries(JSON.parse(existing));
-  //     } catch {
-  //       setObituaries([]);
-  //     }
-  //   }
-    
-  // }, [])
-  
-
-  // useEffect(() => {
-  //   localStorage.setItem(localStorageKey, JSON.stringify(obituaries));
-  // }, [obituaries]);
-
-  // useEffect(() => {
-  //   if (currentObituary < 0) {
-  //     return;
-  //   }
-  //   if(!isOpen) {
-  //     navigate(`/Obituaries`);
-  //     return;
-  //   }
-  //   navigate(`/Overlay/${currentObituary+1}/edit`);
-  //   //setFlicker(true);
-  // }, [isOpen]);
-  // 
-
-
-  // function convertToDataURLviaCanvas(url, callback, outputFormat){
-  //   var img = new Image();
-  //   img.crossOrigin = 'Anonymous';
-  //   img.onload = function(){
-  //       var canvas = document.createElement('CANVAS');
-  //       var ctx = canvas.getContext('2d');
-  //       var dataURL;
-  //       canvas.height = this.height;
-  //       canvas.width = this.width;
-  //       ctx.drawImage(this, 0, 0);
-  //       dataURL = canvas.toDataURL(outputFormat);
-  //       callback(dataURL);
-  //       canvas = null; 
-  //   };
-  //   img.src = url;
-  // }
-
-  // const deleteObituary = (index) => {
-  //   setObituaries([...obituaries.slice(0, index), ...obituaries.slice(index+1)]);
-  //   setCurrentObiturary(0);
-  //   setAddMode(false);
-  // }
-
   const changer = () => {
     setIsOpen(!isOpen);
     setCurrentObiturary(0);
-    //setAddMode(true);
-    //addObituary();
   }
 
 
@@ -139,9 +73,16 @@ function App() {
         </div>
       </div>
       {!spinner ? (<>
-        <Overlay isOpen={isOpen} onClose={() => setIsOpen(!isOpen)} obituaries={obituaries} setObituaries={setObituaries} setCurrentObiturary={setCurrentObiturary} setIsOpen={setIsOpen}></Overlay>
+        <Overlay 
+          isOpen={isOpen} 
+          onClose={() => setIsOpen(!isOpen)} 
+          obituaries={obituaries} setObituaries={setObituaries} 
+          setCurrentObiturary={setCurrentObiturary} 
+          setIsOpen={setIsOpen}
+          setNewID={setNewID}
+        ></Overlay>
         <div id="main">
-          <Obituaries obituaries={obituaries}/>
+          <Obituaries obituaries={obituaries} newID={newID}/>
           {obituaries.length === 0 ? <h4 id="nothingToDisplay">No obituaries yet.</h4> : <></>}
         </div>
         <div id="overlay">

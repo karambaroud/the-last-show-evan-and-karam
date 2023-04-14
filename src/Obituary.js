@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react';
 
 
-function Obituary({image, name, born, died, biography, audio}) {
+function Obituary({id, image, name, born, died, biography, audio, newID}) {
 
     const [bioIsActive, setBioActive] = useState(false);
 
     const toggleBio = () => {
         setBioActive(!bioIsActive);
     }
+
+    useEffect(() => {
+      if(bioIsActive === false && newID === id) {
+        setBioActive(true);
+      }
+    }, [newID]);
 
     const useAudio = (url) => {
       const [audio] = useState(new Audio(url));

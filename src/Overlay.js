@@ -14,10 +14,11 @@ const options = {
   day: "numeric"
 };
 
-export default function Overlay({ isOpen, onClose, obituaries, setCurrentObiturary, setObituaries, setIsOpen }) {
+export default function Overlay({ isOpen, onClose, obituaries, setCurrentObiturary, setObituaries, setIsOpen, setNewID }) {
     let {obitID} = useParams();
     obitID -= 1;
     const navigate = useNavigate();
+
     //obitID -= 1;
     //var [ obituaries ] = useOutletContext();
     //let [obituaries, setObituaries, saveObituary, deleteObituary] = useOutletContext();
@@ -30,6 +31,7 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
     const [obitBirth, setObitBirth] = useState("");
     const [obitDeath, setObitDeath] = useState("");
     const [img, setObitImg] = useState("");
+    const [fileName, setFileName] = useState("");
     const [id, setId] = useState("");
     const [disabled, setDisabled] = useState(false);
 
@@ -64,13 +66,15 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
         ...obituaries,
       ]);
       
-    
+      setNewID(id);
       setIsOpen(!isOpen);
+      setFileName("");
       navigate(`Obituaries`);
     }
 
     const onFileChange = (e) => {
       setObitImg(e.target.files[0]);
+      setFileName(e.target.files[0].name);
     }
 
     const onFormSubmit = async (e) => {
@@ -124,6 +128,11 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
       setObitDeath(died.toLocaleDateString(undefined, options))
     }
 
+    function handleCloseMenu() {
+      onClose();
+      setFileName("");
+    }
+
     //const [obituaries, addObituary, deleteObituary] = useOutletContext();
     return (
         <Fragment>
@@ -135,13 +144,13 @@ export default function Overlay({ isOpen, onClose, obituaries, setCurrentObitura
                   <button
                     className="overlay__close"
                     type="button"
-                    onClick={onClose}
+                    onClick={handleCloseMenu}
                   />
                 </div>
                 <h4 className="bottom-flex" >Create a New Obituary</h4>
                 <form onSubmit={(e) => onFormSubmit(e)}>
                   <div id="wrapper">
-                    <button onClick={handleFileClick} id="magic-button"><b><u>Please choose an image of the deceased</u></b></button>
+                    <button onClick={handleFileClick} id="magic-button"><b><u>Please choose an image of the deceased{fileName !== "" ? ` (${fileName})` : ""}</u></b></button>
                     <input id="image-input"
                       type="file" 
                       ref={onFileClicker}
