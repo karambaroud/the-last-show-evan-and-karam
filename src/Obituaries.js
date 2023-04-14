@@ -7,9 +7,8 @@ function Obituaries({ obituaries, newID }) {
     return (
         <div className="obituaries">
             {obituaries.map((obituary) => (
-              <div>
+              <div key = {obituary.id}>
                 <Obituary 
-                  key = {obituary.id}
                   id = {obituary.id}
                   image = {obituary.image}
                   name = {obituary.name}
